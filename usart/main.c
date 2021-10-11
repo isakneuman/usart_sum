@@ -20,6 +20,9 @@ int main(){
 	
 	while(1){
 		
+		// sum of elements
+		sum();
+		
 		// button test
 		if(button_state1){
 			GPIOA->ODR ^= GPIO_ODR_ODR7;
