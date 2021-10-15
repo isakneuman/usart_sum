@@ -501,6 +501,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>my_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\my_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>my_math.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\my_math.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>first_lib</GroupName>
+          <Files>
+            <File>
+              <FileName>first.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\first.c</FilePath>
+            </File>
+            <File>
+              <FileName>first.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\first.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
