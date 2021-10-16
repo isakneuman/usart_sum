@@ -6,27 +6,34 @@
 	#define TX_pin		9
 	#define RX_pin		10
 	
-	#define	rbuff_size		16
-	#define	tbuff_size		16
+	#define	RBUFF_SIZE		16
+	#define	TBUFF_SIZE		16
 	
 	#define TRUE			1
 	#define FALSE			0
 	
-	static 	uint16_t	r_data[rbuff_size];
-	static	uint8_t 	r_data_count;
-	static	uint8_t 	r_data_position;
+	static		uint8_t 	flag_TXE;
+	static		uint8_t		flag_RXNE;
 	
-	static 	uint16_t	t_data[tbuff_size];
-	static	uint8_t 	t_data_count;
-	static	uint8_t 	t_data_position;
+	uint8_t set_flag_TXE(uint8_t);
+	uint8_t get_flag_TXE(void);
 	
-	static	uint8_t 	flag_for_TXE;
-	static	uint8_t		flag_for_RXNE;
+	uint8_t get_r_count(void);
+	uint8_t get_t_count(void);
+	uint8_t get_r_position(void);
+	uint8_t get_t_position(void);
+	
+	void set_r_count(uint8_t);
+	void set_t_count(uint8_t);
+	void set_r_position(uint8_t);
+	void set_t_position(uint8_t);
+	
+	uint8_t read_r_data(uint8_t*,uint8_t);
+	uint8_t write_t_data(uint8_t*,uint8_t);
 	
 	uint16_t BRR(uint16_t);
 	
 	void 	init_usart(uint16_t brr);
-	void	USART1_IRQHandler(void);
 	
 	void	recieve_function	(void);
 	void	transfer_function	(void);

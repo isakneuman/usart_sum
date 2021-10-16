@@ -3,7 +3,7 @@
 
 	#include "global.h"
 	
-	int32_t sum_of_array(uint16_t*,uint8_t);
+	int32_t sum_of_array(uint8_t*,uint8_t);
 	
 
 #endif

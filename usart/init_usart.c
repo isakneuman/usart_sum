@@ -1,28 +1,84 @@
 #include "init_usart.h"
-	
+
+void USART1_IRQHandler(void);
+
+static 		uint8_t		r_data[RBUFF_SIZE];
+static		uint8_t 	r_data_count			=	0;
+static		uint8_t 	r_data_position		=	0;
+
+static 		uint8_t		t_data[TBUFF_SIZE];
+static		uint8_t 	t_data_count			=	0;
+static		uint8_t 	t_data_position		=	0;
+
+uint8_t set_flag_TXE(uint8_t i){
+	return (flag_TXE	=		 i);
+}
+uint8_t get_flag_TXE(void){
+	return flag_TXE;
+}
+
+uint8_t get_r_count(void){
+	return r_data_count;
+}
+uint8_t get_t_count(void){
+	return t_data_count;
+}
+uint8_t get_r_position(void){
+	return r_data_position;
+}
+uint8_t get_t_position(void){
+	return t_data_position;
+}
+// end get
+
+void set_r_count(uint8_t i){
+	r_data_count	=	i;
+}
+void set_t_count(uint8_t i){
+	t_data_count	=	i;
+}	
+void set_r_position(uint8_t i){
+	r_data_position	=	i;
+}
+void set_t_position(uint8_t i){
+	t_data_position	=	i;
+}
+// end set
+
+uint8_t read_r_data(uint8_t* buff,uint8_t count){
+	uint8_t i = 0;
+	for(i=0; i<count; i++){
+		*(buff+i)	=	*(r_data+i); 
+	}
+	return i;
+}
+uint8_t write_t_data(uint8_t* buff,uint8_t count){
+	uint8_t i = 0;
+	for(i=0; i<count; i++){
+		*(t_data+i) = *(buff+i); 
+	}
+	return i;
+}
+
 void USART1_IRQHandler(void){
 	
 	if ( USART1->SR & USART_SR_RXNE ){
-		if(r_data_count == rbuff_size){
+		if(r_data_count == RBUFF_SIZE){
 			r_data_count	=	0;
 		}
+		
 		r_data_position		=	r_data_count;
-		if(r_data_position==1){
-			GPIOA->BSRR = GPIO_BSRR_BS7;
-		}else{
-			GPIOA->BRR = GPIO_BRR_BR7;
-		}
-		r_data[r_data_count++]	=	USART1->DR;
+		r_data[r_data_count]	=	USART1->DR;
+		r_data_count++;
 	}
-	if ( USART1->SR & USART_SR_TXE	&& flag_for_TXE ){
-		GPIOA->ODR ^= GPIO_ODR_ODR7;
+	if ( (USART1->SR & USART_SR_TXE) && get_flag_TXE()){
 		USART1->DR	=	t_data[t_data_position++];
 		if(t_data_position == t_data_count){
-			flag_for_TXE	=		FALSE;
-			t_data_position	=	t_data_count	=	0;
+			set_flag_TXE(FALSE);
+			USART1->CR1			&=	~USART_CR1_TXEIE;
+			t_data_position	=		t_data_count	=	0;
 		}
 	}
-	
 }
 //	END USART1_IRQHandler
 
